@@ -15,7 +15,7 @@ def cracker(x):
             print("[-] "+str(x))
         elif "blocked" in str(e) or ("locked" in str(e)):
             print("[-] "+str(x))
-            print("[!] Mailbox locked! Sleeping for one hour (try letting this run while you sleep...)")
+            print("[!] Mailbox locked! Sleeping for half hour (try letting this run while you sleep...)")
             #turns out you only need to sleep about half an hour before mailbox lock is lifted :D
             time.sleep(1801)
         else:
