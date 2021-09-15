@@ -32,5 +32,6 @@ for c in range(9999):
             time.sleep(1802)
     else:
         print("[+] "+str(g))
+        break
 
         
